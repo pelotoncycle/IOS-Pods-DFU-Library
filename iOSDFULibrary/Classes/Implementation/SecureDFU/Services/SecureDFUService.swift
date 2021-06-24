@@ -242,7 +242,10 @@ import CoreBluetooth
             sendReset(onError: report)
         }
     }
-    
+
+	func setPacketSize(_ packetSize: UInt32) {
+		dfuPacketCharacteristic?.packetSize = packetSize
+	}
     /**
      Sends a Packet Receipt Notification request with given value. Result it reported using
      callbacks.

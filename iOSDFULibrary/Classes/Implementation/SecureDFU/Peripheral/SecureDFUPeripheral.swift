@@ -233,6 +233,10 @@ internal class SecureDFUPeripheral : BaseCommonDFUPeripheral<SecureDFUExecutor, 
             onError: defaultErrorCallback
         )
     }
+
+	func setPacketSize(packetSize: UInt32) {
+		dfuService?.setPacketSize(packetSize)
+	}
     
     /**
      Sends Init packet. This method is synchronuous and calls delegate's

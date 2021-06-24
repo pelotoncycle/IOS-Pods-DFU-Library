@@ -305,6 +305,8 @@ import CoreBluetooth
     */
     @objc public var disableResume: Bool = false
 
+	@objc public var mtu: UInt32 = 20
+
     //MARK: - Public API
     
     /**
