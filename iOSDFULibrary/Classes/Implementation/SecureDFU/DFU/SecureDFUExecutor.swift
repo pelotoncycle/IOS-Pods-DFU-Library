@@ -87,6 +87,7 @@ internal class SecureDFUExecutor : DFUExecutor, SecureDFUPeripheralDelegate {
             $0.dfuStateDidChange(to: .starting)
         }
         peripheral.enableControlPoint() // -> peripheralDidEnableControlPoint() will be called when done.
+		peripheral.setPacketSize(packetSize: initiator.mtu)
     }
     
     func peripheralDidEnableControlPoint() {

@@ -32,7 +32,7 @@ import CoreBluetooth
 
 internal class SecureDFUPacket: DFUCharacteristic {
     
-    private let packetSize: UInt32
+	internal var packetSize: UInt32 = 20
     
     internal var characteristic: CBCharacteristic
     internal var logger: LoggerHelper
@@ -56,24 +56,6 @@ internal class SecureDFUPacket: DFUCharacteristic {
     required init(_ characteristic: CBCharacteristic, _ logger: LoggerHelper) {
         self.characteristic = characteristic
         self.logger = logger
-        
-        if #available(iOS 9.0, macOS 10.12, *) {
-            let optService: CBService? = characteristic.service
-            guard let peripheral = optService?.peripheral else {
-                packetSize = 20 // Default MTU is 23.
-                return
-            }
-            
-            // Make the packet size the first word-aligned value that's less than the maximum.
-            packetSize = UInt32(peripheral.maximumWriteValueLength(for: .withoutResponse)) & 0xFFFFFFFC
-            if packetSize > 20 {
-                // MTU is 3 bytes larger than payload
-                // (1 octet for Op-Code and 2 octets for Att Handle).
-                logger.v("MTU set to \(packetSize + 3)")
-            }
-        } else {
-            packetSize = 20 // Default MTU is 23.
-        }
     }
     
     // MARK: - Characteristic API methods
